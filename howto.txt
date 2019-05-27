@@ -1,25 +1,3 @@
-Sia nella nostra guida a PHP che in precedenti articoli dedicati al linguaggio, abbiamo già visto come sfruttare in diversi modi l'accoppiata vincente PHP/MySQL. Nello specifico abbiamo già visto come estrarre dati dal DB, ma ci siamo "dimenticati" di affrontare un "problema" molto comune, ovvero: quando i record presenti nel database sono particolarmente numerosi, come è possibile suddividerli in più pagine?
-
-In questo articolo, appunto, vedremo come effettuare la paginazione di una grossa quantità di dati presenti all'interno di una data tabella del nostro database. Per paginazione, infatti, s'intende l'attività di suddivisione di una grossa mole di contenuto all'interno di più pagine in sequenza.
-Corsi di informatica on-lineE-Learning con tutor online ed attestato finale. Iscriviti subito ai corsi!
-Segretaria 24h/24. Prova GRATISRisparmia il 90% dei costi fissi del tuo ufficio utilizzando una segretaria virtuale.
-Mr. Webmaster → PHP → Articoli → Paginazione dei dati con PHP e MySQL
-Paginazione dei dati con PHP e MySQL
-
-    3
-    0
-    0
-
-1
-2
-3
-4
-5
-
-    Pubblicato il
-    14/11/2014
-    Autore
-    Massimiliano Bossi
 
 Sia nella nostra guida a PHP che in precedenti articoli dedicati al linguaggio, abbiamo già visto come sfruttare in diversi modi l'accoppiata vincente PHP/MySQL. Nello specifico abbiamo già visto come estrarre dati dal DB, ma ci siamo "dimenticati" di affrontare un "problema" molto comune, ovvero: quando i record presenti nel database sono particolarmente numerosi, come è possibile suddividerli in più pagine?
 
