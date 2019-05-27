@@ -1,0 +1,182 @@
+Paginazione dati con PHP e MYSQL
+
+In questo articolo vediamo come effettuare la paginazione dei dati prelevati dal database visualizzando su piu’ pagine il risultato.
+
+Facciamo l’esempio di una tabella “post” nel nostro database che contiene una cinquantina di articoli. Be’ visualizzare tutti gli articoli nella stessa pagina è la soluzione peggiore, meglio riporli su piu’ pagine per avere una visualizzazione piu chiara e ordinata.
+Inizamo analizzando la prima classe che ci permetterà di effettuare la conessione al database,  eseguire le query  e alla fine chiudere la connessione:
+
+class.db.php
+<?php
+class Db
+{
+private $conn;
+private $host,$user,$password;
+private $db;
+ 
+public function __construct($host,$user,$password,$db_name)
+{
+$this->host=$host;
+$this->user=$user;
+$this->password=$password;
+$this->db=$db_name;
+}
+//apro la conessione al db
+public function openConnectionDb()
+{
+$this->conn=mysqli_connect($this->host,$this->user,$this->password,$this->db);
+if(!$this->conn)
+{
+return false;
+}
+return true;
+}
+/* questo metodo restituisce i risultati in un array associativo*/
+public function getRows($res_query)
+{
+while($rows = mysqli_fetch_array($res_query, MYSQL_ASSOC))
+{
+$record[] = $rows;
+}
+return $record;
+}
+/*
+Restituisco il numero dei record della query
+*/
+public function numRows($query)
+{
+$num_rows=mysqli_num_rows($this->execQuery($query));
+return $num_rows;
+}
+/*esecuzione della query*/
+public function execQuery($query)
+{
+return mysqli_query($this->conn,$query);
+}
+//chiudo la connessione
+public function closeConnectionDb()
+{
+mysqli_close($this->conn);
+}
+ 
+}
+ 
+?>
+
+Gestiamo la paginazione dei dati con la classe “class.paginazione.php” contenente i metodi che ci occorrono e che chiameremo all’interno della pagina nella quale visualizzare i dati paginati:
+
+class.paginazione.php
+<?php
+class Paginazione
+{
+private $max_pagina;
+private $pagina;
+private $redirectTo;
+public function __construct($max_pagina,$redirectTo = 'index.php?')
+{
+$this->max_pagina=$max_pagina;
+$this->_redirectTo = $redirectTo;
+(isset($_GET['pagina']))?$this->pagina=$_GET['pagina']:$this->pagina=1;
+}
+//ritona il numero delle pagine
+public function getNumPagine($num_rows)
+{
+return ceil($num_rows/$this->max_pagina);
+}
+//start paginazione per pagina
+public function getStart()
+{
+$start=($this->pagina-1)*$this->max_pagina;
+return $start;
+}
+public function getLink($num_pagine)
+{
+$link='';
+ 
+if(($this->pagina>1)&&($this->pagina<=$num_pagine))
+{
+$pag=$this->pagina-1;
+$link.="<a href='".$this->_redirectTo."pagina=$pag'>Indietro</a> ";
+}
+$p=0;
+if($this->pagina>=1&&$this->pagina < 4)
+{
+$p=1;
+}
+else{
+$p=$this->pagina-2;
+if($this->pagina>4)
+{
+$link.="<a href='".$this->_redirectTo."&pagina=1'style='text-decoration:none'>1</a> ... ";
+}
+if($p<0)$p=0;
+}
+if($this->pagina<$num_pagine-4)
+{
+$a=$this->pagina+4;
+}
+else{
+$a=$num_pagine;
+}
+ 
+for($i=$p;$i<=$a;$i++)
+{
+if($this->pagina==$i)
+{
+$link.="<a href='".$this->_redirectTo."&pagina=$i'style='text-decoration:none'>[$i]</a> ";
+}
+else {
+$link.="<a href='".$this->_redirectTo."&pagina=$i'style='text-decoration:none'>$i</a> ";
+}
+}
+if($this->pagina<$num_pagine-4)
+{
+$link.="... <a href='".$this->_redirectTo."&pagina=$num_pagine'style='text-decoration:none'>$num_pagine</a>";
+}
+ 
+if(($this->pagina>0)&&($this->pagina<$num_pagine))
+{
+$pag=$this->pagina+1;
+$link.="<a href='".$this->_redirectTo."pagina=$pag'>Avanti</a> ";
+}
+return $link;
+}
+ 
+}
+ 
+?>
+Non ci resta che passare alla pagina “index.php” nella quale visualizziamo i dati prelevati dal nostro database Mysql e  dopo aver analizzato le due classi e con i commenti presenti nel codice, possiamo capire con facilità tutti i passaggi:
+
+index.php
+	
+<?php
+//require delle due classi
+require("class.paginazione.php");
+require("class.db.php");
+$link="";
+//imposto a 10 il numero degli articoli da visualizzare per ogni pagina
+$max_pagina=10;
+//creo l'oggetto Db  passo i parametri del db e apro la connessione
+$db=new Db("localhost","root","","wordpress");
+$db->openConnectionDb();
+//oggetto Paginazione
+$pag=new Paginazione($max_pagina,'index.php?');
+//ottengo il numero degli articoli presenti nella tabella
+$num_rows=$db->numRows("SELECT * FROM articoli");
+//il numero delle pagine risultanti
+$num_pagine=$pag->getNumPagine($num_rows);
+//il valore da passare alla query per avere i risultati per una pagina
+$start=$pag->getStart();
+$res_query=$db->execQuery("SELECT * from articoli LIMIT $start,$max_pagina");
+$record=$db->getRows($res_query);
+//visualizzo gli articoli
+foreach($record as $row)
+{
+echo "<h2>".$row['titolo']."</h2>";
+ echo "<p>".$row['articolo']."</p><br />";
+}
+ //in basso visulizzo il link per la paginazione
+$link=$pag->getLink($num_pagine);
+echo $link;
+//alla fine chiudo la connessione al db
+$db->closeConnectionDb();
+?>
