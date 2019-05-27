@@ -1,0 +1,79 @@
+Sia nella nostra guida a PHP che in precedenti articoli dedicati al linguaggio, abbiamo già visto come sfruttare in diversi modi l'accoppiata vincente PHP/MySQL. Nello specifico abbiamo già visto come estrarre dati dal DB, ma ci siamo "dimenticati" di affrontare un "problema" molto comune, ovvero: quando i record presenti nel database sono particolarmente numerosi, come è possibile suddividerli in più pagine?
+
+In questo articolo, appunto, vedremo come effettuare la paginazione di una grossa quantità di dati presenti all'interno di una data tabella del nostro database. Per paginazione, infatti, s'intende l'attività di suddivisione di una grossa mole di contenuto all'interno di più pagine in sequenza.
+Corsi di informatica on-lineE-Learning con tutor online ed attestato finale. Iscriviti subito ai corsi!
+Segretaria 24h/24. Prova GRATISRisparmia il 90% dei costi fissi del tuo ufficio utilizzando una segretaria virtuale.
+Mr. Webmaster → PHP → Articoli → Paginazione dei dati con PHP e MySQL
+Paginazione dei dati con PHP e MySQL
+
+    3
+    0
+    0
+
+1
+2
+3
+4
+5
+
+    Pubblicato il
+    14/11/2014
+    Autore
+    Massimiliano Bossi
+
+Sia nella nostra guida a PHP che in precedenti articoli dedicati al linguaggio, abbiamo già visto come sfruttare in diversi modi l'accoppiata vincente PHP/MySQL. Nello specifico abbiamo già visto come estrarre dati dal DB, ma ci siamo "dimenticati" di affrontare un "problema" molto comune, ovvero: quando i record presenti nel database sono particolarmente numerosi, come è possibile suddividerli in più pagine?
+
+In questo articolo, appunto, vedremo come effettuare la paginazione di una grossa quantità di dati presenti all'interno di una data tabella del nostro database. Per paginazione, infatti, s'intende l'attività di suddivisione di una grossa mole di contenuto all'interno di più pagine in sequenza.
+Continua dopo la pubblicità...
+Segretaria da 39 euro al meseRisposta al telefono, agenda appuntamenti e fax virtuale. Anche 24h al giorno.
+Cerchi un hosting per WordPress?Prova SiteGround e ti innamorerai. Super veloce, facile e sicuro.
+
+E' evidente come questa tecnica diventi tanto più importante tanto maggiore è il numero di record da mostrare all'utente. Se, infatti, si tratta di mostrare poche decine di risultati la suddivisione in pagine può sembrare tutt'altro che indispensabile, ma se i record da restituire sono centinaia o migliaia è palese che non sarebbe possibile "stamparli" in una sola pagina: ciò, infatti, avrebbe un grosso impatto sulle risorse del server ed anche su quelle del client che si vedrebbe arrivare pagine interminabili piene di dati. Da un punto di vista pratico, quindi, avremmo un server in difficoltà e degli utenti che fuggono dal nostro sito perchè le pagine non riescono a caricarsi in tempi ragionevoli.
+
+Facciamo un esempio pratico che ci aiuterà a chiarirci le idee: poniamo di avere una tabella chiamata agenda composta da tre soli campi: id, nome e telefono, e poniamo che questa tabella sia popolata con centinaia di record:
+
+Come già detto, sarebbe decisamente poco pratico voler estrarre tutti i record all'interno di una sola pagina, molto più comodo sarebbe il poterli estrarre suddividendoli in più pagine con un tot di record ciascuna. Per fare ciò utilizzeremo una comoda funzione nativa di MySQL, la funzione LIMIT che ci consente di determinare con precisione quanti e quali record selezionare a fronte del complessivo di quelli corrispondenti alla nostra selezione. Per svolgere il suo lavoro LIMIT richiede due parametri: il record di partenza ed il numero di record da recuperare.
+
+SELECT ... LIMIT X, Y
+
+Copia
+
+Dove X è il numero di recorda da mostrare (supponiamo 10) e Y il record di partenza. E' bene precisare che il secondo valore numerico è facoltativo e se omesso la selezione partità dal primo record trovato (sulla base di quanto specificato nella clausola WHERE della nostra query):
+
+SELECT ... LIMIT X
+
+Copia
+
+In pratica possiamo dire che per la prima pagina di risultati sarebbe sufficiente specificare anche un solo valore dopo LIMIT mentre, a partire dalla seconda pagina, entrambi i valori sono necessari affinchè a nostra paginazione funzioni correttamente.
+Nel nostro esempio abbiamo gestito il cambio di pagina esclusivamente attraverso due link (avanti e indietro), molto spesso, invece, può aversi l'esigenza di stampare a video i link diretti a ciascuna pagina (1, 2, 3, ..., N). Vediamo quindi come modificare lo script per avere i collegamenti diretti a ciascuna pagina della nostra paginazione:
+Possiamo, ancora, intercettare la pagina corrente e mostrarla (all'interno dei vari link) in modo differente:
+
+...
+
+if ($all_pages > 1){
+  if ($pag > 1){
+    echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
+    echo "Pagina Indietro</a>&nbsp;";
+  }
+  // faccio un ciclo di tutte le pagine
+  for ($p=1; $p<=$all_pages; $p++) {
+    // per la pagina corrente non mostro nessun link ma la evidenzio in blod
+    // all'interno della sequenza delle pagine
+    if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
+    // per tutte le altre pagine stampo il link
+    else { 
+      echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
+      echo $p . "</a>&nbsp;";
+    } 
+  }
+  if ($all_pages > $pag){
+    echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
+    echo "Pagina Avanti</a>";
+  } 
+}
+
+Copia
+
+I codici sono ampiamente commentati e, pertanto, non credo ci sia bisogno di ulteriori spiegazioni.
+
+Ovviamente si tratta di esempi "grezzi" finalizzati solo a far comprendere al lettore il meccanismo che regola la paginazione dei dati con PHP e MySQL, quindi lascio a voi il compit di migliorarlo e/o raffinarlo.
