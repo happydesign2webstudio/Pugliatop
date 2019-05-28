@@ -110,3 +110,5 @@ Queste considerazioni ci devono quindi portare, in prima battuta, ad effettuare 
 Infine non va dimenticato il costo del calcolo del numero totale di pagine web, ovvero del numero totale di record restituiti dalla query principale. Questo valore serve per la costruzione dei link di navigazione ed in generale produce sempre lo stesso risultato durante la navigazione di un utente. Per questa ragione potrebbe risultare conveniente eseguire una sola volta la query per il conteggio e conservare in sessione il risultato restituito.
 
 A volte però nessuna delle suddette strategie riesce a risolvere il problema delle prestazioni e pertanto si deve procedere diversamente. Ad esempio se il conteggio delle pagine è troppo oneroso ci si può limitare a mostrare solo un link alla pagina precedente e successiva, senza verificare se queste realmente esistano, e delegare gli opportuni controlli allo script che si occupa di creare la pagina richiesta, che in caso di errori mostrerà un messaggio.
+
+FONTE: http://www.phpnews.it/articoli/paginazione-dei-dati/
