@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Elenco Comuni Italiani</title>
+</head>
+<body>
+<h1>Elenco Comuni Italiani</h1>
+<p><?php echo $link_paginazione?></p>
+<table border="1">
+    <tr>
+        <th>COMUNE</th>
+        <th>PROVINCIA</th>
+        <th>REGIONE</th>
+        <th>CAP</th>
+        <th>PREFISSO TEL.</th>
+        <th>CODICE COMUNE</th>
+        <th>CODICE ISTAT</th>
+    </tr>
+    <?php foreach($elenco_comuni as $riga):?>
+    <tr>
+        <td><?php echo htmlentities($riga['comune'])?></td>
+        <td><?php echo $riga['provincia']?></td>
+        <td><?php echo $riga['regione']?></td>
+        <td><?php echo $riga['cap']?></td>
+        <td><?php echo $riga['prefisso']?></td>
+        <td><?php echo $riga['cod_comune']?></td>
+        <td><?php echo $riga['cod_istat']?></td>
+    </tr>
+    <?php endforeach ?>
+</table>
+<p><?php echo $link_paginazione?></p>
+</body>
+</html>
