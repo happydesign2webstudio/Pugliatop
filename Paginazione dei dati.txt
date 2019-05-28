@@ -1,0 +1,42 @@
+Introduzione
+
+La paginazione rappresenta, probabilmente, il primo scoglio “serio” che si trova ad affrontare chi comincia ad approcciarsi all’interazione tra un linguaggio di scripting server-side ed un Database (che nel nostro caso saranno, ovviamente, PHP E MySql). Ma cosa si intende per paginazione ?
+
+Letteralmente questa parola indica la suddivisione in più pagine del risultato restituito da un’interrogazione ad un Database.
+
+Pensiamo all’esempio classico di un motore di ricerca. Se digitassimo, ad esempio, la parola “web” verremmo sicuramente sommersi da decine di migliaia di risultati che, per ovvie ragioni, non potrebbero essere visualizzati tutti in un’unica pagina; da qui l’esigenza, appunto, di suddividere questi risultati, mostrandone quindi un tot per pagina così da potersi muovere più agevolmente fra gli stessi.
+Prima di andare avanti, mi sento in dovere di chiarire che gli esempi ed il codice che mostrerò riguardano PHP 4 e, soprattutto, MySql 3.2.23.xx (l’ultima versione stabile rilasciata al momento in cui scrivo).
+
+Esistono due approcci al problema della paginazione con PHP e MySql, il primo è quello che prevede l’uso della clausola LIMIT e il secondo è, ovviamente, quello che non la prevede. Entrambi hanno pro e contro ed io personalmente prediligo il primo perchè, a mio modesto avviso, consente di gestire molto più facilmente il tutto, anche se , per contro, richiede l’esecuzione di due distinte query: una che determini il numero totale di risultati (senza LIMIT) ed un’altra che estragga i risultati che ci interessano. Entrambe, ovviamente, conterranno le medesime condizioni all’interno della clausola WHERE (ammesso che questa sia presente).
+La clausola Limit
+
+La clausola LIMIT cui si è accennato, ha questa sintassi:
+
+LIMIT valoreinizio, numerorecords
+
+e costituisce una variazione di MySql alla sintassi SQL di SELECT definita dall’ANSI nello standard SQL99 che limita il numero di records restituiti dalla query, mediante il valore specificato da valoreinizio e la quantità espressa da numerorecords.
+
+Sulla clausola LIMIT vale la pena di soffermarsi un attimo, perchè essa costituisce il fulcro essenziale della paginazione. Sarà sufficiente giocare correttamente con i suoi due parametri per potere agevolmente suddividere i risultati in più pagine.
+
+Facciamo un esempio per poterla capire meglio, ipotizzando una semplicissima query:
+
+SELECT * FROM tabella WHERE nome LIKE ‘g%’ LIMIT 0, 10
+
+Senza la clausola LIMIT, l’esecuzione di questa query avrebbe restituito tutti i records che avessero soddisfatto la condizione espressa all’interno di WHERE (ovvero con g come prima lettera del contenuto del campo nome). Con la sintassi LIMIT 0, 10 invece, riusciremo ad ottenere i primi dieci risultati (importante a questo proposito notare che LIMIT parte da zero e non da uno).
+
+Come fare per ottenere tutti gli altri risultati, o meglio i successivi dieci (ammesso che ve ne siano)? Molto semplice, è sufficiente modificare il primo parametro di LIMIT (nel presupposto che se ne vogliano visualizzare sempre 10 per pagina, altrimenti si può cambiare anche il secondo parametro). La query diventerebbe quindi questa:
+
+SELECT * FROM tabella WHERE nome LIKE ‘g%’ LIMIT 10, 10
+
+In questo modo otterremmo dall’undicesimo al ventesimo record prodotto dall’interrogazione e così via. Un problema però si pone a questo punto: fino a quando dovrà andare avanti l’incremento del primo parametro di LIMIT ?
+
+Ecco perchè, come accennato all’inizio, abbiamo bisogno di una prima query (senza LIMIT) che ci consenta di conoscere il numero esatto di records prodotti dalla nostra interrogazione, per poter quindi sapere con esattezza su quante pagine verranno distribuiti i records.
+Esempio concreto
+
+Per poter paginare i risultati di un’interrogazione, abbiamo quindi bisogno di conoscere poche semplici cose:
+
+    il numero totale di risultati restituiti dalla query (cosa che otteniamo con la prima query)
+    il numero di risultati da visualizzare per pagina (il secondo parametro di LIMIT)
+    il numero totale di pagine (da determinare in funzione dei due precedenti parametri, peraltro non indispensabile)
+
+Sulla base di questa considerazione, possiamo cominciare a costruire uno schema base di paginazione, con l’avvertenza che, come vedremo meglio in seguito, l’essenziale è capirne il meccanismo perchè, una volta colto questo, l’unico limite è dettato dalla fantasia del programmatore.
