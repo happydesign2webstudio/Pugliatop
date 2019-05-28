@@ -18,7 +18,7 @@
         $no_of_records_per_page = 10;
         $offset = ($pageno-1) * $no_of_records_per_page;
 
-        $conn=mysqli_connect("localhost","my_user","my_password","my_db");
+        $conn=mysqli_connect("localhost","root","kumakassiokuno","jodsp_strutture_short");
         // Check connection
         if (mysqli_connect_errno()){
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
