@@ -3,8 +3,8 @@ include 'paginazione.php';
 
 $DB_host     = 'localhost';
 $DB_user     = 'root';
-$DB_password = 'secret';
-$DB_name     = 'test';
+$DB_password = 'kumakassiokuno';
+$DB_name     = 'jodsp_strutture_short';
 
 $righe_per_pagina = 1;
 $url_base = "index.php";
@@ -27,7 +27,7 @@ if (!$db_selected) {
 //    C A L C O L O   D E L   N U M E R O   D I   P A G I N E
 
 // ricavo il numero totale di record
-$query = "SELECT COUNT(*) FROM comuni";
+$query = "SELECT COUNT(*) FROM Comune";
 $result = mysql_query($query);
 // record complessivi
 $tot_righe = mysql_result($result,0);
@@ -58,7 +58,7 @@ if($pagina_corrente > $tot_pagine) {
 $prima_riga = ($pagina_corrente - 1) * $righe_per_pagina;
 
 $query = "SELECT *
-          FROM comuni
+          FROM jodsp_strutture_short
           ORDER BY comune, cod_istat
           LIMIT $prima_riga, $righe_per_pagina";
 
