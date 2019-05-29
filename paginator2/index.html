@@ -9,23 +9,36 @@
 <p><?php echo $link_paginazione?></p>
 <table border="1">
     <tr>
-        <th>COMUNE</th>
-        <th>PROVINCIA</th>
-        <th>REGIONE</th>
-        <th>CAP</th>
-        <th>PREFISSO TEL.</th>
-        <th>CODICE COMUNE</th>
-        <th>CODICE ISTAT</th>
+        <th>Comune</th>
+        <th>Tipologia</th>
+        <th>Categoria</th>
+        <th>Denominazione</th>
+        <th>Prezzo a/s</th>
+        <th>Prezzo b/s</th>
+        <th>ID_Struttura</th>
+         <th>Longitudine</th>
+        <th>Latitudine</th>
+        <th>Accessibilità Struttura</th>
+        <th>Ricettività Animali</th>
+        <th>Link SolidRes</th>
     </tr>
     <?php foreach($elenco_comuni as $riga):?>
     <tr>
-        <td><?php echo htmlentities($riga['comune'])?></td>
-        <td><?php echo $riga['provincia']?></td>
-        <td><?php echo $riga['regione']?></td>
-        <td><?php echo $riga['cap']?></td>
-        <td><?php echo $riga['prefisso']?></td>
-        <td><?php echo $riga['cod_comune']?></td>
-        <td><?php echo $riga['cod_istat']?></td>
+        <td><?php echo htmlentities($riga['Comune'])?></td>
+        <td><?php echo $riga['Tipologia']?></td>
+        <td><?php echo $riga['Categoria']?></td>
+        <td><?php echo $riga['Denominazione']?></td>
+        <td><?php echo $riga['Prezzo a/s']?></td>
+        <td><?php echo $riga['Prezzo b/s']?></td>
+        <td><?php echo $riga['ID_Struttura']?></td>
+         <td><?php echo $riga['Longitudine']?></td>
+         <td><?php echo $riga['Latitudine']?></td>
+         <td><?php echo $riga['Accessibilità Struttura']?></td>
+          <td><?php echo $riga['Ricettività Animali']?></td>
+          <td><?php echo $riga['Link SolidRes']?></td>
+
+
+
     </tr>
     <?php endforeach ?>
 </table>
