@@ -12,12 +12,12 @@
                 <td><?php echo $results->data[$i]['Denominazione']; ?></td>
                 <td><?php echo $results->data[$i]['Prezzo a/s']; ?></td>
                 <td><?php echo $results->data[$i]['Prezzo b/s']; ?></td>
-                <td><?php echo $results->data[$i]['ID_Struttura']; ?></td>
+                <td><?php echo $results->data[$i]['id']; ?></td>
                 <td><?php echo $results->data[$i]['Longitudine']; ?></td>
                 <td><?php echo $results->data[$i]['Latitudine']; ?></td>
-                <td><?php echo $results->data[$i]['AccessibilitÃ  Struttura']; ?></td>
-                <td><?php echo $results->data[$i]['RicettivitÃ  Animali']; ?></td>
-                <td><?php echo $results->data[$i]['Link SolidRes']; ?></td>
+                <td><?php echo $results->data[$i]['AccessibilitÃ_Struttura']; ?></td>
+                <td><?php echo $results->data[$i]['RicettivitÃ_Animali']; ?></td>
+                <td><?php echo $results->data[$i]['Link_SolidRes']; ?></td>
         </tr>
 <?php endfor; ?>
 require_once 'Paginator.class.php';
@@ -27,7 +27,7 @@ require_once 'Paginator.class.php';
     $limit      = ( isset( $_GET['limit'] ) ) ? $_GET['limit'] : 25;
     $page       = ( isset( $_GET['page'] ) ) ? $_GET['page'] : 1;
     $links      = ( isset( $_GET['links'] ) ) ? $_GET['links'] : 7;
-    $query      = "SELECT City.Name, City.CountryCode, Country.Code, Country.Name AS Country, Country.Continent, Country.Region FROM City, Country WHERE City.CountryCode = Country.Code";
+    $query      = "SELECT Comune, Tipologia, Categoria, 'Nome', 'Prezzo a/s', 'Prezzo b/s, 'id', 'Longitudine', 'Latitudine', 'Accessibilità_Struttura', 'Ricettività_Animali', 'Link_SolidRes'FROM josdp_strutture WHERE City.CountryCode = Country.Code";
  
     $Paginator  = new Paginator( $conn, $query );
  
