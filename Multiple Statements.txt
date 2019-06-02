@@ -1,0 +1,74 @@
+Multiple Statements ¶
+
+MySQL optionally allows having multiple statements in one statement string. Sending multiple statements at once reduces client-server round trips but requires special handling.
+
+Multiple statements or multi queries must be executed with mysqli_multi_query(). The individual statements of the statement string are separated by semicolon. Then, all result sets returned by the executed statements must be fetched.
+
+The MySQL server allows having statements that do return result sets and statements that do not return result sets in one multiple statement.
+
+Example #1 Multiple Statements
+<?php
+$mysqli = new mysqli("example.com", "user", "password", "database");
+if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+}
+
+if (!$mysqli->query("DROP TABLE IF EXISTS test") || !$mysqli->query("CREATE TABLE test(id INT)")) {
+    echo "Table creation failed: (" . $mysqli->errno . ") " . $mysqli->error;
+}
+
+$sql = "SELECT COUNT(*) AS _num FROM test; ";
+$sql.= "INSERT INTO test(id) VALUES (1); ";
+$sql.= "SELECT COUNT(*) AS _num FROM test; ";
+
+if (!$mysqli->multi_query($sql)) {
+    echo "Multi query failed: (" . $mysqli->errno . ") " . $mysqli->error;
+}
+
+do {
+    if ($res = $mysqli->store_result()) {
+        var_dump($res->fetch_all(MYSQLI_ASSOC));
+        $res->free();
+    }
+} while ($mysqli->more_results() && $mysqli->next_result());
+?>
+
+The above example will output:
+
+array(1) {
+  [0]=>
+  array(1) {
+    ["_num"]=>
+    string(1) "0"
+  }
+}
+array(1) {
+  [0]=>
+  array(1) {
+    ["_num"]=>
+    string(1) "1"
+  }
+}
+
+Security considerations
+
+The API functions mysqli_query() and mysqli_real_query() do not set a connection flag necessary for activating multi queries in the server. An extra API call is used for multiple statements to reduce the likeliness of accidental SQL injection attacks. An attacker may try to add statements such as ; DROP DATABASE mysql or ; SELECT SLEEP(999). If the attacker succeeds in adding SQL to the statement string but mysqli_multi_query is not used, the server will not execute the second, injected and malicious SQL statement.
+
+Example #2 SQL Injection
+<?php
+$mysqli = new mysqli("example.com", "user", "password", "database");
+$res    = $mysqli->query("SELECT 1; DROP TABLE mysql.user");
+if (!$res) {
+    echo "Error executing query: (" . $mysqli->errno . ") " . $mysqli->error;
+}
+?>
+
+The above example will output:
+
+Error executing query: (1064) You have an error in your SQL syntax;
+check the manual that corresponds to your MySQL server version for the right syntax 
+to use near 'DROP TABLE mysql.user' at line 1
+
+Prepared statements
+
+Use of the multiple statement with prepared statements is not supported. 
