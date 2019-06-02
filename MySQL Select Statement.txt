@@ -1,0 +1,597 @@
+SELECT statement is used to retrieve data. It can be combined with many sub statements to specify more criteria on data to be retrieved.
+
+For examples in this article, we are going to use `employee` table mentioned below. SQL commands for creating the table and inserting data are available here.
+id 	first_name 	last_name 	job_title 	salary 	notes
+1 	Robin 	Jackman 	Software Engineer 	5500 	 
+2 	Taylor 	Edward 	Software Architect 	7200 	 
+3 	Vivian 	Dickens 	Database Administrator 	6000 	 
+4 	Harry 	Clifford 	Database Administrator 	6800 	 
+5 	Eliza 	Clifford 	Software Engineer 	4750 	 
+6 	Nancy 	Newman 	Software Engineer 	5100 	 
+7 	Melinda 	Clifford 	Project Manager 	8500 	 
+8 	Harley 	Gilbert 	Software Architect 	8000 	 
+
+All the SQL commands mentioned in this article can be run in MySQL command-line, in a GUI tool or with mysqli_query() in a PHP script. Result sets shown in the article were taken by running the commands in command-line.
+Selecting All the Columns from a Table
+
+Following is the SQL command for fetching all the columns of `employee` table. It will also return all the rows in the table since we haven’t specified criteria on rows to be retrieved.
+1.
+SELECT * FROM `employee`;
+
++----+------------+-----------+------------------------+--------+-------+
+| id | first_name | last_name | job_title              | salary | notes |
++----+------------+-----------+------------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer      |   5500 | NULL  |
+|  2 | Taylor     | Edward    | Software Architect     |   7200 | NULL  |
+|  3 | Vivian     | Dickens   | Database Administrator |   6000 | NULL  |
+|  4 | Harry      | Clifford  | Database Administrator |   6800 | NULL  |
+|  5 | Eliza      | Clifford  | Software Engineer      |   4750 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer      |   5100 | NULL  |
+|  7 | Melinda    | Clifford  | Project Manager        |   8500 | NULL  |
+|  8 | Harley     | Gilbert   | Software Architect     |   8000 | NULL  |
++----+------------+-----------+------------------------+--------+-------+
+
+Selecting Only a Set of Columns from a Table
+
+For retrieving data of only a set of columns, you have to mention the column names separated by commas as shown in following example.
+1.
+SELECT `first_name`, `last_name` FROM `employee`;
+
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Robin      | Jackman   |
+| Taylor     | Edward    |
+| Vivian     | Dickens   |
+| Harry      | Clifford  |
+| Eliza      | Clifford  |
+| Nancy      | Newman    |
+| Melinda    | Clifford  |
+| Harley     | Gilbert   |
++------------+-----------+
+
+Filtering Rows with WHERE Clause
+
+WHERE clause is used for specifying conditions. Following query retrieves only the rows where `job_title` is ‘Software Engineer’.
+1.
+SELECT * FROM `employee` WHERE `job_title` = 'Software Engineer';
+
++----+------------+-----------+-------------------+--------+-------+
+| id | first_name | last_name | job_title         | salary | notes |
++----+------------+-----------+-------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer |   5500 | NULL  |
+|  5 | Eliza      | Clifford  | Software Engineer |   4750 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer |   5100 | NULL  |
++----+------------+-----------+-------------------+--------+-------+
+
+When more than one condition need to be specified and all of them need to be true, use AND operator to combine the conditions.
+1.
+SELECT * FROM `employee` WHERE `job_title` = 'Software Engineer' AND `salary` > 5000;
+
++----+------------+-----------+-------------------+--------+-------+
+| id | first_name | last_name | job_title         | salary | notes |
++----+------------+-----------+-------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer |   5500 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer |   5100 | NULL  |
++----+------------+-----------+-------------------+--------+-------+
+
+When not all conditions need to be true and at least one condition becoming true is enough, use OR operator.
+1.
+SELECT * FROM `employee` WHERE `job_title` = 'Software Engineer' OR `job_title` = 'Software Architect';
+
++----+------------+-----------+--------------------+--------+-------+
+| id | first_name | last_name | job_title          | salary | notes |
++----+------------+-----------+--------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer  |   5500 | NULL  |
+|  2 | Taylor     | Edward    | Software Architect |   7200 | NULL  |
+|  5 | Eliza      | Clifford  | Software Engineer  |   4750 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer  |   5100 | NULL  |
+|  8 | Harley     | Gilbert   | Software Architect |   8000 | NULL  |
++----+------------+-----------+--------------------+--------+-------+
+
+Using parentheses, you can write more complex conditions.
+1.
+SELECT * FROM `employee` WHERE (`job_title` = 'Software Engineer' AND `salary` > 5000) OR (`job_title` = 'Software Architect' AND `salary` > 7500);
+
++----+------------+-----------+--------------------+--------+-------+
+| id | first_name | last_name | job_title          | salary | notes |
++----+------------+-----------+--------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer  |   5500 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer  |   5100 | NULL  |
+|  8 | Harley     | Gilbert   | Software Architect |   8000 | NULL  |
++----+------------+-----------+--------------------+--------+-------+
+
+=, !=, >, <, >=, and <= operators are available to use with WHERE clause.
+
+Using IS NULL and IS NOT NULL
+
+= and != operators don’t work for NULL values. You have to use IS NULL and IS NOT NULL operators instead. `notes` column in `employee` table can be NULL and you can use IS NULL and IS NOT NULL operators for this column.
+1.
+SELECT * FROM `employee` WHERE `notes` IS NULL;
+
+If you want the rows where `notes` is not null then the query has to be like below.
+1.
+SELECT * FROM `employee` WHERE `notes` IS NOT NULL;
+
+Using IN() Function
+
+IN() function can be used with a WHERE clause when the values of given column need to match any of a set of values.
+1.
+SELECT * FROM `employee` WHERE `job_title` IN('Software Engineer', 'Software Architect', 'Database Administrator');
+
++----+------------+-----------+------------------------+--------+-------+
+| id | first_name | last_name | job_title              | salary | notes |
++----+------------+-----------+------------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer      |   5500 | NULL  |
+|  2 | Taylor     | Edward    | Software Architect     |   7200 | NULL  |
+|  3 | Vivian     | Dickens   | Database Administrator |   6000 | NULL  |
+|  4 | Harry      | Clifford  | Database Administrator |   6800 | NULL  |
+|  5 | Eliza      | Clifford  | Software Engineer      |   4750 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer      |   5100 | NULL  |
+|  8 | Harley     | Gilbert   | Software Architect     |   8000 | NULL  |
++----+------------+-----------+------------------------+--------+-------+
+
+Using LIKE and NOT LIKE Operators
+
+All above mentioned WHERE clauses were for exact matches. That is we searched for ‘Software Engineer’ not for ‘Software’.
+
+In web applications, there are cases that you need to do partial matching. One good example is the auto-completion text boxes. There when you type few letters, suggestions are presented for typed letters.
+
+In MySQL, you can do partial matching with LIKE and NOT LIKE operators. These operators are case in-sensitive. That is searching for ‘Software’ and ‘SOFTWARE’ will bring same result.
+
+Following is how to fetch employees whose first name starts with ‘har’. Here % is a wildcard character that matches zero or more characters.
+1.
+SELECT * FROM `employee` WHERE `first_name` LIKE 'har%';
+
++----+------------+-----------+------------------------+--------+-------+
+| id | first_name | last_name | job_title              | salary | notes |
++----+------------+-----------+------------------------+--------+-------+
+|  4 | Harry      | Clifford  | Database Administrator |   6800 | NULL  |
+|  8 | Harley     | Gilbert   | Software Architect     |   8000 | NULL  |
++----+------------+-----------+------------------------+--------+-------+
+
+Following is how to fetch employees whose last name ends with ‘man’.
+1.
+SELECT * FROM `employee` WHERE `last_name` LIKE '%man';
+
++----+------------+-----------+-------------------+--------+-------+
+| id | first_name | last_name | job_title         | salary | notes |
++----+------------+-----------+-------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer |   5500 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer |   5100 | NULL  |
++----+------------+-----------+-------------------+--------+-------+
+
+Following query returns employees whose last name contains ‘f’.
+1.
+SELECT * FROM `employee` WHERE `last_name` LIKE '%f%';
+
++----+------------+-----------+------------------------+--------+-------+
+| id | first_name | last_name | job_title              | salary | notes |
++----+------------+-----------+------------------------+--------+-------+
+|  4 | Harry      | Clifford  | Database Administrator |   6800 | NULL  |
+|  5 | Eliza      | Clifford  | Software Engineer      |   4750 | NULL  |
+|  7 | Melinda    | Clifford  | Project Manager        |   8500 | NULL  |
++----+------------+-----------+------------------------+--------+-------+
+
+You can also specify exact number of characters to match with underscore (_). Following query looks for last names which are seven characters long and end with ‘man’.
+1.
+SELECT * FROM `employee` WHERE `last_name` LIKE '____man';
+
++----+------------+-----------+-------------------+--------+-------+
+| id | first_name | last_name | job_title         | salary | notes |
++----+------------+-----------+-------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer |   5500 | NULL  |
++----+------------+-----------+-------------------+--------+-------+
+
+NOT LIKE behaves opposite to LIKE. For an example, following query returns all the employees whose first name doesn’t begin with ‘har’.
+1.
+SELECT * FROM `employee` WHERE `first_name` NOT LIKE 'har%';
+
++----+------------+-----------+------------------------+--------+-------+
+| id | first_name | last_name | job_title              | salary | notes |
++----+------------+-----------+------------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer      |   5500 | NULL  |
+|  2 | Taylor     | Edward    | Software Architect     |   7200 | NULL  |
+|  3 | Vivian     | Dickens   | Database Administrator |   6000 | NULL  |
+|  5 | Eliza      | Clifford  | Software Engineer      |   4750 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer      |   5100 | NULL  |
+|  7 | Melinda    | Clifford  | Project Manager        |   8500 | NULL  |
++----+------------+-----------+------------------------+--------+-------+
+
+Renaming Retrieved Columns
+
+Column names of a result set retrieved by a SELECT statement are the same as the column names of corresponding MySQL table. Look at the column name of retrieved result set of following query.
+1.
+SELECT `job_title` FROM `employee` WHERE `salary` > 7500;
+
++--------------------+
+| job_title          |
++--------------------+
+| Project Manager    |
+| Software Architect |
++--------------------+
+
+When the column names are too lengthy or want to have memorable names (to be used in your PHP scripts), you can rename the column names of retrieved result sets with AS keyword.
+
+Look at how column name has been changed to ‘job ‘in retrieved result set of following query.
+1.
+SELECT `job_title` AS `job` FROM `employee` WHERE `salary` > 7500;
+
++--------------------+
+| job                |
++--------------------+
+| Project Manager    |
+| Software Architect |
++--------------------+
+
+Limiting the Number of Rows Returned
+
+In all above SQL queries, all the rows that matched given conditions are returned. But in web applications, you will need to limit the number of rows returned mainly for following reasons.
+
+    For application’s requirements (like when only fifty rows should be shown per page).
+    For preventing performance issues (if the table contains large number of rows, retrieving all or many of them will take considerable time that would lead to time-outs).
+
+You can limit the number of rows returned with LIMIT clause. LIMIT clause can be given one or two parameters (separated by a comma).
+
+If only one parameter is given (at least one parameter should be given), it becomes the count and if both parameters are given, first one becomes the offset and second one becomes the count.
+
+Offset specifies from which record you need to retrieve and count specifies how many. Note that offset starts from zero (not from one, like in arrays). That is, if you want to retrieve from third row then you have to specify the offset as two.
+
+When only one parameter is given, MySQL takes the offset as zero and return rows from the beginning of the table.
+
+Following are few examples showing usage of LIMIT clause.
+1.
+SELECT * FROM `employee` LIMIT 0,2;
+
++----+------------+-----------+--------------------+--------+-------+
+| id | first_name | last_name | job_title          | salary | notes |
++----+------------+-----------+--------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer  |   5500 | NULL  |
+|  2 | Taylor     | Edward    | Software Architect |   7200 | NULL  |
++----+------------+-----------+--------------------+--------+-------+
+
+1.
+SELECT * FROM `employee` LIMIT 2,2;
+
++----+------------+-----------+------------------------+--------+-------+
+| id | first_name | last_name | job_title              | salary | notes |
++----+------------+-----------+------------------------+--------+-------+
+|  3 | Vivian     | Dickens   | Database Administrator |   6000 | NULL  |
+|  4 | Harry      | Clifford  | Database Administrator |   6800 | NULL  |
++----+------------+-----------+------------------------+--------+-------+
+
+1.
+SELECT * FROM `employee` LIMIT 2;
+
++----+------------+-----------+--------------------+--------+-------+
+| id | first_name | last_name | job_title          | salary | notes |
++----+------------+-----------+--------------------+--------+-------+
+|  1 | Robin      | Jackman   | Software Engineer  |   5500 | NULL  |
+|  2 | Taylor     | Edward    | Software Architect |   7200 | NULL  |
++----+------------+-----------+--------------------+--------+-------+
+
+Ordering the Rows Returned
+
+By default there is no guaranteed order in returned rows of a SELECT statement. It can mainly depend on the way data is stored (that’s why you see rows are ordered according to the primary key most of the time) and they way query is executed.
+
+When you want to control the order, you can use ORDER BY clause with ASC or DESC keywords. Following are few examples on how to use ORDER BY. Note how “Harry Clifford”, “Eliza Clifford” and “Melinda Clifford” are ordered in each result set.
+
+To order by `last_name` in ascending order.
+1.
+SELECT * FROM `employee` ORDER BY `last_name` ASC;
+
++----+------------+-----------+------------------------+--------+-------+
+| id | first_name | last_name | job_title              | salary | notes |
++----+------------+-----------+------------------------+--------+-------+
+|  4 | Harry      | Clifford  | Database Administrator |   6800 | NULL  |
+|  5 | Eliza      | Clifford  | Software Engineer      |   4750 | NULL  |
+|  7 | Melinda    | Clifford  | Project Manager        |   8500 | NULL  |
+|  3 | Vivian     | Dickens   | Database Administrator |   6000 | NULL  |
+|  2 | Taylor     | Edward    | Software Architect     |   7200 | NULL  |
+|  8 | Harley     | Gilbert   | Software Architect     |   8000 | NULL  |
+|  1 | Robin      | Jackman   | Software Engineer      |   5500 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer      |   5100 | NULL  |
++----+------------+-----------+------------------------+--------+-------+
+
+Default ordering is set to ASC and therefore you can omit ASC keyword and write above query like below.
+1.
+SELECT * FROM `employee` ORDER BY `last_name`;
+
+You can specify more than one column in an ORDER BY clause. In following example, employees are fist ordered by their last name and then by first name.
+1.
+SELECT * FROM `employee` ORDER BY `last_name` ASC, `first_name` ASC;
+
++----+------------+-----------+------------------------+--------+-------+
+| id | first_name | last_name | job_title              | salary | notes |
++----+------------+-----------+------------------------+--------+-------+
+|  5 | Eliza      | Clifford  | Software Engineer      |   4750 | NULL  |
+|  4 | Harry      | Clifford  | Database Administrator |   6800 | NULL  |
+|  7 | Melinda    | Clifford  | Project Manager        |   8500 | NULL  |
+|  3 | Vivian     | Dickens   | Database Administrator |   6000 | NULL  |
+|  2 | Taylor     | Edward    | Software Architect     |   7200 | NULL  |
+|  8 | Harley     | Gilbert   | Software Architect     |   8000 | NULL  |
+|  1 | Robin      | Jackman   | Software Engineer      |   5500 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer      |   5100 | NULL  |
++----+------------+-----------+------------------------+--------+-------+
+
+It’s possible that one is being ascending and the other is being descending.
+1.
+SELECT * FROM `employee` ORDER BY `last_name` ASC, `first_name` DESC;
+
++----+------------+-----------+------------------------+--------+-------+
+| id | first_name | last_name | job_title              | salary | notes |
++----+------------+-----------+------------------------+--------+-------+
+|  7 | Melinda    | Clifford  | Project Manager        |   8500 | NULL  |
+|  4 | Harry      | Clifford  | Database Administrator |   6800 | NULL  |
+|  5 | Eliza      | Clifford  | Software Engineer      |   4750 | NULL  |
+|  3 | Vivian     | Dickens   | Database Administrator |   6000 | NULL  |
+|  2 | Taylor     | Edward    | Software Architect     |   7200 | NULL  |
+|  8 | Harley     | Gilbert   | Software Architect     |   8000 | NULL  |
+|  1 | Robin      | Jackman   | Software Engineer      |   5500 | NULL  |
+|  6 | Nancy      | Newman    | Software Engineer      |   5100 | NULL  |
++----+------------+-----------+------------------------+--------+-------+
+
+Eliminating Duplicate Rows
+
+Look at the rows returned for following query. You can see two rows for Software Architect.
+1.
+SELECT `job_title` FROM `employee` WHERE `salary` > 7000;
+
++--------------------+
+| job_title          |
++--------------------+
+| Software Architect |
+| Project Manager    |
+| Software Architect |
++--------------------+
+
+In cases where you want to eliminate duplicate rows, you can use DISTINCT keyword. Following will return only one row for Software Architect.
+1.
+SELECT DISTINCT `job_title` FROM `employee` WHERE `salary` > 7000;
+
++--------------------+
+| job_title          |
++--------------------+
+| Software Architect |
+| Project Manager    |
++--------------------+
+
+Note that if result set contains multiple columns, to consider as a duplicate row, the row in question should have duplicate values for all mentioned columns.
+
+For an example, following query returns three rows since two software architects (Taylor Edward and Harley Gilbert) have different salaries.
+1.
+SELECT DISTINCT `job_title`, `salary` FROM `employee` WHERE `salary` > 7000;
+
++--------------------+--------+
+| job_title          | salary |
++--------------------+--------+
+| Software Architect |   7200 |
+| Project Manager    |   8500 |
+| Software Architect |   8000 |
++--------------------+--------+
+
+However if Taylor Edward’s salary was also 8000, above query will eliminate a duplicate row and will produce following result.
+
++--------------------+--------+
+| job_title          | salary |
++--------------------+--------+
+| Software Architect |   8000 |
+| Project Manager    |   8500 |
++--------------------+--------+
+
+Concatenating Result Columns
+
+Say that you want `first_name` and `last_name` to be concatenated and returned as one column. You can achieve that with CONCAT_WS() function.
+1.
+SELECT CONCAT_WS(' ', `first_name`, `last_name`) AS `full_name` FROM `employee`;
+
++------------------+
+| full_name        |
++------------------+
+| Robin Jackman    |
+| Taylor Edward    |
+| Vivian Dickens   |
+| Harry Clifford   |
+| Eliza Clifford   |
+| Nancy Newman     |
+| Melinda Clifford |
+| Harley Gilbert   |
++------------------+
+
+    For CONCAT_WS(), first parameter should be the separator and the rest should be the columns to be selected separated by commas. In this case, separator is a space.
+    CONCAT() is a similar function but in it you can’t specify a separator.
+
+You can also specify strings in the list to be concatenated. For an example think that each employee has a separate company ID which is formed by adding prefix ABC_ to employee’s ID. Following query will include company ID in the result set.
+1.
+SELECT CONCAT_WS('_', 'ABC', `id`) AS `company_id`, `first_name`, `last_name` FROM `employee`;
+
++------------+------------+-----------+
+| company_id | first_name | last_name |
++------------+------------+-----------+
+| ABC_1      | Robin      | Jackman   |
+| ABC_2      | Taylor     | Edward    |
+| ABC_3      | Vivian     | Dickens   |
+| ABC_4      | Harry      | Clifford  |
+| ABC_5      | Eliza      | Clifford  |
+| ABC_6      | Nancy      | Newman    |
+| ABC_7      | Melinda    | Clifford  |
+| ABC_8      | Harley     | Gilbert   |
++------------+------------+-----------+
+
+Adding Custom Columns to Rows Returned
+
+In addition to the column list to select, you can also specify strings that would be included as columns in retrieved rows.
+
+For an example, think that you need to include ‘ABC Company’ as the `company_name` in all rows retrieved. You can do that with following query.
+1.
+SELECT 'ABC Company' AS `company_name`, `first_name`, `last_name` FROM `employee`;
+
++--------------+------------+-----------+
+| company_name | first_name | last_name |
++--------------+------------+-----------+
+| ABC Company  | Robin      | Jackman   |
+| ABC Company  | Taylor     | Edward    |
+| ABC Company  | Vivian     | Dickens   |
+| ABC Company  | Harry      | Clifford  |
+| ABC Company  | Eliza      | Clifford  |
+| ABC Company  | Nancy      | Newman    |
+| ABC Company  | Melinda    | Clifford  |
+| ABC Company  | Harley     | Gilbert   |
++--------------+------------+-----------+
+
+Selecting Aggregated Data
+
+Sometimes you will need aggregated data like average salary. MySQL has several aggregate functions to use.
+
+Following query returns the average of all the salaries.
+1.
+SELECT AVG(`salary`) FROM `employee`;
+
++---------------+
+| AVG(`salary`) |
++---------------+
+|       6481.25 |
++---------------+
+
+Renaming columns come in handy when using aggregate functions.
+1.
+SELECT AVG(`salary`) AS `average_salary` FROM `employee`;
+
++----------------+
+| average_salary |
++----------------+
+|        6481.25 |
++----------------+
+
+Following query returns the minimum salary;
+1.
+SELECT MIN(`salary`) AS `min_salary` FROM `employee`;
+
++------------+
+| min_salary |
++------------+
+|       4750 |
++------------+
+
+Following query returns the maximum salary;
+1.
+SELECT MAX(`salary`) AS `max_salary` FROM `employee`;
+
++------------+
+| max_salary |
++------------+
+|       8500 |
++------------+
+
+Following query returns the sum of all the salaries;
+1.
+SELECT SUM(`salary`) AS `salary_sum` FROM `employee`;
+
++------------+
+| salary_sum |
++------------+
+|      51850 |
++------------+
+
+Following query returns how many employees are paid above 6500.
+1.
+SELECT COUNT(*) AS `salary_count` FROM `employee` WHERE `salary` > 6500;
+
++--------------+
+| salary_count |
++--------------+
+|            4 |
++--------------+
+
+Grouping the Rows Returned
+
+In `employee` table, same job title has different salaries. You can get the average salary for each job title with GROUP BY clause.
+1.
+SELECT `job_title`, AVG(`salary`) AS `average_salary` FROM `employee` GROUP BY `job_title`;
+
++------------------------+------------------+
+| job_title              | average_salary   |
++------------------------+------------------+
+| Database Administrator |             6400 |
+| Project Manager        |             8500 |
+| Software Architect     |             7600 |
+| Software Engineer      | 5116.66666666667 |
++------------------------+------------------+
+
+Above query first groups the rows based on job title. Then it calculates average salary for each group.
+
+    GROUP BY clause is always used with aggregate functions.
+    Columns you specify in GROUP BY clause should also be available in column list mentioned after SELECT.
+
+You can further filter returned rows with HAVING clause. Following query will only return job titles where average salary is above 6500.
+1.
+SELECT `job_title`, AVG(`salary`) AS `average_salary` FROM `employee` GROUP BY `job_title` HAVING `average_salary` > 6500;
+
++--------------------+----------------+
+| job_title          | average_salary |
++--------------------+----------------+
+| Project Manager    |           8500 |
+| Software Architect |           7600 |
++--------------------+----------------+
+
+    HAVING clause should only be used with GROUP BY clause.
+
+Merging Result Sets with UNION Statement
+
+UNION statement lets you merge result sets from two or more SELECT statements. Its syntax is like below.
+1.
+(SELECT `t1_col1`, `t1_col2` FROM `t1` WHERE `t1_col1` = 'value1')
+2.
+UNION
+3.
+(SELECT `t2_col1`, `t2_col2` FROM `t2` WHERE `t2_col1` = 'value2');
+
+    Tables mentioned in a UNION statement need not have same schema (number of columns and data types) but number of columns mentioned in each SELECT statement should be same.
+    Column names mentioned in first SELECT statement are used for column names of result set.
+    If data types do not match for a certain column (for an example if `t1_col1` and `t2_col1` have different data types) then MySQL will decide the length of the column by analyzing all the values returned for resulting column.
+    By default UNION omits duplicate rows. If you want to retrieve all the rows use UNION ALL.
+    Parentheses around each SELECT statement are not compulsory but having them makes the query readable.
+    Separate WHERE clauses can be specified for each SELECT statement.
+
+Ability to specify separate WHERE clauses come in handy when you want to retrieve multiple result sets from same table based on different conditions.
+
+In following example, `employee` table is used for both SELECT statements but `job_title` and `salary` are assigned different values in each WHERE clause.
+1.
+(SELECT `first_name`, `last_name` FROM `employee` WHERE `job_title` = 'Software Engineer' AND `salary` > 5000)
+2.
+UNION
+3.
+(SELECT  `first_name`, `last_name` FROM `employee` WHERE `job_title` = 'Software Architect' AND `salary` > 7500);
+
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Robin      | Jackman   |
+| Nancy      | Newman    |
+| Harley     | Gilbert   |
++------------+-----------+
+
+For more explanations on UNION statement, refer MySQL manual that also has examples on using ORDER BY and LIMIT.
+Retrieving Data from Multiple Tables
+
+You can retrieve data from more than one table at a time. Retrieving from multiple tables is covered in MySQL JOINS.
+Syntax of SELECT Statement
+
+When you use more than one sub statements with SELECT, you may wonder in which order to place them. Following is the SELECT syntax where possible order of each sub statement is mentioned. A more detailed syntax is available in MySQL manual.
+view source
+print
+?
+1.
+SELECT columns
+2.
+FROM table
+3.
+WHERE conditions
+4.
+GROUP BY columns
+5.
+HAVING conditions
+6.
+ORDER BY columns
+7.
+LIMIT offset, count;
