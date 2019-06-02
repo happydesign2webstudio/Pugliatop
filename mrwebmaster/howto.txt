@@ -1,0 +1,17 @@
+Impaginare i records contenuti all'interno di una tabella può essere veramente comodo se si deve lavorare alla visualizzazione di un gran numero di dati; però gli scripts per l'impaginazione sono in genere molto ricchi di codice e si rischia di complicare eccessivamente il listato delle nostre applicazioni.
+
+Una soluzione ideale potrebbe essere quella di affidare le funzioni di impaginazione ad una classe salvata in una pagina esterna, in questo modo potremmo richiamare in modo semplice i metodi previsti senza "affogare" le nostre pagine in un mare di codice.
+Ciò che rende molto lunghi, e spesso complicati, i codici per l'impaginazione sono i tanti casi che sarebbe necessario prevedere: qual'è il numero d'ordine della pagina corrente? Quante pagine dobbiamo gestire in totale? Quanti records devono essere visualizzati per ogni pagina? Come evidenziare la pagina corrente? Come linkare le altre pagine?... e via dicendo.
+
+A questo scopo una classe che preveda tutti i casi possibili rappresenta un'ottima soluzione riutilizzabile da richiamare con una semplice inclusione e le istanze dei metodi via via necessari.
+Quello che vogliamo ottenere è un sistema di impaginazione e numerazione di tipo classico:
+
+1 | 2 | 3 | ...
+
+Copia
+la nostra classe è inoltre in grado di evidenziare e non linkare la pagina corrente, di permettere gli spostamenti per pagine precedenti e successive (i classici links "Next" e "Prev" che nel nostro caso sono chiamati "Prossima pag." e "Pag. precedente") e di accedere velocemente alla prima e all'ultima pagina qualsiasi sia la posizione corrente.
+
+La navigazione per numero di pagina e quella per pagine precedenti e successive sono regolate da funzioni diverse. Sarà quindi possibile abilitare anche solo uno dei tipi di impaginazione.
+La prima parte del codice è dedicata all'introduzione di una classe molte semplice che permette di effettuare la connessione al DBMS e la selezione del database; se lo si desidera, anch'essa potrà essere inclusa in un file esterno.
+
+In secondo luogo abbiamo istanziato la nostra classe per l'impaginazione, Paging, quindi abbiamo stabilito il numero massimo di risultati da visualizzare per pagina (nel nostro caso "10"); fatto questo, abbiamo richiamato la funzione paginaIniziale() a cui abbiamo passato come parametro la variabile contenente il valore relativo al limite per pagina, questa funzione ci permetterà di raccolgiere il valore passato per GET (via querystring) e di sapere sempre da quale pagina cominciare il conteggio.
