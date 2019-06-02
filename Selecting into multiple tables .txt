@@ -1,0 +1,72 @@
+Based on this e-mail from one user (excerpt only):
+
+Multitable SELECT (M-SELECT) is similar to the join operation. You
+select values from different tables, use WHERE clause to limit the rows
+returned and send the resulting single table back to the originator of
+the query.
+
+MOVIE(id, title)
+PERSON(id, name)
+MOVIE_PERSON(mid, pid, role)
+
+SELECT 
+  m.title, p.name 
+FROM 
+  movie m, person p, movie_person mp
+WHERE 
+  m.id = mp.mid AND mp.pid = p.id
+  AND m.title LIKE 'Adams Family%'
+
+The difference with M-SELECT is that it would return multiply tables as
+the result set.
+
+SELECT
+  m.* INTO result.movie, 
+  mp.* INTO result.movie_person,
+  p.* INTO result.person
+FROM 
+  movie m, person p, movie_person mp
+WHERE 
+  m.id = mp.mid AND mp.pid = p.id
+  AND m.title LIKE 'Adams Family%'
+
+1: The Addams Family movies from the MOVIE table
+2: all cast members from the PERSON table
+3: required linking rows from the MOVIE_PERSON table
+
+This has several advantages over the simple SELECT. 
+
+1: Client applications could be much more flexible in displaying or
+using the results set in different ways. A simple re-sorting for example
+would not require another query to be run. 
+
+2: Queries from multiply tables could still be updateable easily from
+client apps if they select the keys from all linked tables too. With a
+simple SELECT if you find an error in a name's spelling you have to form
+a different query to update that person's name. With the other approach
+you can provide update functioality automaticcaly in client app
+development components (for example in Delphi's TDataSet)
+
+3: Stored procedures could return more tables too, and this is really
+helpful in some situations.
+
+4: Communication is more compact too. A simple SELECT has to transfer
+each movies' title castmember-count times, with M-SELECT only once. I
+guess it would ease the load on the server too: less wainting for the
+net interface to eat all those repeated titles.
+
+
+I writed no SQL server in my life, but I guess as you scan the tables
+while processing a query and push the values from the base tables into
+the result set table, it wouldn't hurt that much to fill the apropriate
+value into the apropriate table.
+
+It could even make it easier to optimize queries, since the
+communication protocoll (and API) supporting the new functionality,
+would allow you to fill the tables in an order you choose, or from
+multiple threads. Or for example a linked dictionary table(media type of
+films [vhs, videodisc, dvd, etc.]) could be sent to the client before
+the main result data, and while doing the other joins, you could simply
+forget the dictionary table. I know tha latter example is not valid in
+all situations, but you have expirience in this field, and I have very
+little - you'll know how to do it.
