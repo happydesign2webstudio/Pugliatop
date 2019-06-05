@@ -1,0 +1,107 @@
+<div class="eaKeep"><SCRIPT src="../../../third-parties/yav/js_compact/yav.js">&nbsp;</SCRIPT> <SCRIPT src="../../../third-parties/yav/js_compact/yav-config-it.js">&nbsp;</SCRIPT> <SCRIPT>
+var rules=new Array();
+rules[0]='email|required|e-mail';
+rules[1]='email|email|e-mail: deve essere un indirizzo valido';
+rules[2]='AutorizzazioneTrattamentoDati|required|Trattamento dati: ci è indispensabile l\'assenso per poter erogare il servizio';
+rules[3]='nome|required|Nome';
+rules[4]='cognome|required|Cognome';
+rules[5]='telefono|required|Telefono';
+rules[6]='camera|required|Camera';
+rules[7]='dataarrivo|required|datadiArrivo';
+rules[8]='datapartenza|required|DatadiPartenza';
+
+function swapDisplay (id){
+if (getStyleObject(id).display=='block'){
+hideCompById(id);
+} else {
+showCompById(id);
+}
+    }
+</SCRIPT> <style type="text/css">
+<!--
+.inputError { border:#FF8000 1px solid; background-color: #FFFFD7; }
+.contactTable { margin-top:10px; border:#999999 1px solid;}
+.contactTable th { background-color:#DDDDDD; font-weight:bold; text-align:left }
+.contactTable ol { padding-left:15px }
+-->
+</style>
+<form class="fckForm" style="margin: 0pt;" onsubmit="return performCheck('contactForm', rules, 'classic');" action="../../../iw/core/main/sendForm.jsp" name="contactForm">
+<table width="460" class="fckTable">
+<tbody>
+<th colspan="4">Modulo di prenotazione</th>
+</tr>
+<tr>
+<td colspan="4"><strong>Dati personali</strong></td>
+</tr>
+<tr>
+<td width="80">Nome*</td>
+<td>&#160;<input type="text" style="width: 150px;" name="nome" /></td>
+<td width="80">Cognome*</td>
+<td>&#160;<input type="text" style="width: 150px;" name="cognome" /></td>
+</tr>
+<tr>
+<td width="80">Città</td>
+<td>&#160;<input type="text" style="width: 150px;" name="città" /></td>
+<td width="80">Nazionalità</td>
+<td>&#160;<input type="text" style="width: 150px;" name="nazionalità" /></td>
+</tr>
+<tr>
+<td width="80">Telefono*</td>
+<td>&#160;<input type="text" style="width: 150px;" name="telefono" />&#160;</td>
+<td width="80">Cellulare</td>
+<td>&#160;<input type="text" style="width: 150px;" name="cellulare" /></td>
+</tr>
+<tr>
+<td width="80">Fax</td>
+<td>&#160;<input type="text" style="width: 150px;" name="fax" /></td>
+<td width="80">E-mail*</td>
+<td>&#160;<input type="text" style="width: 150px;" name="email" /></td>
+</tr>
+</tbody>
+</table>
+<table width="460" class="fckTable">
+<tbody>
+<tr>
+<td colspan="2"><strong>Dati prenotazione</strong></td>
+</tr>
+<tr>
+<td width="150">Camera*</td>
+<td><select size="1" name="camera">
+<option value="singola">singola</option>
+<option value="doppia">doppia</option>
+<option value="tripla">tripla</option>
+</select></td>
+</tr>
+<tr>
+<td width="150">Data di arrivo*</td>
+<td><input type="text" style="width: 150px;" name="dataarrivo" /></td>
+</tr>
+<tr>
+<td width="150">Data di partenza*</td>
+<td><input type="text" style="width: 150px;" name="datapartenza" /></td>
+</tr>
+<tr>
+<td colspan="2">Note</td>
+</tr>
+<tr>
+<td colspan="2"><textarea name="Note" style="width: 500px; height: 100px;"></textarea>&#160
+<input type="hidden" value="Prenotazione" name="formTitle" /></td>
+</tr>
+<tr>
+<td colspan="4">I campi contrassegnati dall'asterisco (*) sono  obbligatori.</td>
+</tr>
+<tr>
+<td colspan="4">La prenotazione avrà valore solo dopo una nostra conferma telefonica, verificate la correttezza dei recapiti telefonici.</td>
+</tr>
+<tr>
+<td colspan="4">
+<div style="border-bottom: 1px solid rgb(153, 153, 153); font-size: 9px;"><a href="/iw/ecom/main/showDisclaimers.jsp" target="disclaimer">leggi l'informativa sulla privacy</a>  <br />
+<input type="checkbox" checked="" value="1" style="vertical-align: middle;" name="AutorizzazioneTrattamentoDati"/>&#160;Autorizzo&#160;il&#160;trattamento&#160;dei&#160;miei&#160;dati&#160;personali&#160;
+<br />
+<input type="checkbox" checked="" value="1" style="vertical-align: middle;" name="AutorizzazioneTrattamentoDatiUsoCommerciale" />Autorizzo il trattamento dei miei dati personali per l’invio di informazioni commerciali</div>
+<input type="submit" style="float: right;" value="invia" /></td>
+</tr>
+</tbody>
+</table>
+</form>
+</div>
