@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+
+<body style="margin: 30px;">
+
+&lt;form method=&quot;post&quot; action=&quot;//submit.form&quot;  onSubmit=&quot;return validateForm();&quot;&gt;<br/>
+&lt;div style=&quot;width: 400px;&quot;&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;div style=&quot;padding-bottom: 18px;font-size : 24px;&quot;&gt;Hotel Reservation&lt;/div&gt;<br/>
+&lt;div style=&quot;display: flex; padding-bottom: 18px;width : 450px;&quot;&gt;<br/>
+&lt;div style=&quot; margin-left : 0; margin-right : 1%; width : 49%;&quot;&gt;First name&lt;span style=&quot;color: red;&quot;&gt; *&lt;/span&gt;&lt;br/&gt;<br/>
+&lt;input type=&quot;text&quot; id=&quot;data_2&quot; name=&quot;data_2&quot; style=&quot;width: 100%;&quot; class=&quot;form-control&quot;/&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;div style=&quot; margin-left : 1%; margin-right : 0; width : 49%;&quot;&gt;Last name&lt;span style=&quot;color: red;&quot;&gt; *&lt;/span&gt;&lt;br/&gt;<br/>
+&lt;input type=&quot;text&quot; id=&quot;data_3&quot; name=&quot;data_3&quot; style=&quot;width: 100%;&quot; class=&quot;form-control&quot;/&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;/div&gt;&lt;div style=&quot;padding-bottom: 18px;&quot;&gt;Phone&lt;span style=&quot;color: red;&quot;&gt; *&lt;/span&gt;&lt;br/&gt;<br/>
+&lt;input type=&quot;text&quot; id=&quot;data_4&quot; name=&quot;data_4&quot; style=&quot;width : 450px;&quot; class=&quot;form-control&quot;/&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;div style=&quot;padding-bottom: 18px;&quot;&gt;Email&lt;span style=&quot;color: red;&quot;&gt; *&lt;/span&gt;&lt;br/&gt;<br/>
+&lt;input type=&quot;text&quot; id=&quot;data_5&quot; name=&quot;data_5&quot; style=&quot;width : 450px;&quot; class=&quot;form-control&quot;/&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;div style=&quot;padding-bottom: 18px;&quot;&gt;Arrival date&lt;span style=&quot;color: red;&quot;&gt; *&lt;/span&gt;&lt;br/&gt;<br/>
+&lt;input type=&quot;text&quot; id=&quot;data_6&quot; name=&quot;data_6&quot; style=&quot;width : 250px;&quot; class=&quot;form-control&quot;/&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/pikaday.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br/>
+&lt;link href=&quot;https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/css/pikaday.min.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;<br/>
+&lt;script type=&quot;text/javascript&quot;&gt;new Pikaday({ field: document.getElementById('data_6') });&lt;/script&gt;<br/>
+&lt;div style=&quot;padding-bottom: 18px;&quot;&gt;Departure date&lt;span style=&quot;color: red;&quot;&gt; *&lt;/span&gt;&lt;br/&gt;<br/>
+&lt;input type=&quot;text&quot; id=&quot;data_7&quot; name=&quot;data_7&quot; style=&quot;width : 250px;&quot; class=&quot;form-control&quot;/&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/pikaday.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br/>
+&lt;link href=&quot;https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/css/pikaday.min.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;<br/>
+&lt;script type=&quot;text/javascript&quot;&gt;new Pikaday({ field: document.getElementById('data_7') });&lt;/script&gt;<br/>
+&lt;div style=&quot;padding-bottom: 18px;&quot;&gt;Number of adults&lt;span style=&quot;color: red;&quot;&gt; *&lt;/span&gt;&lt;br/&gt;<br/>
+&lt;input type=&quot;number&quot; id=&quot;data_8&quot; name=&quot;data_8&quot; style=&quot;width : 250px;&quot; class=&quot;form-control&quot;/&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;div style=&quot;padding-bottom: 18px;&quot;&gt;Number of children&lt;br/&gt;<br/>
+&lt;input type=&quot;number&quot; id=&quot;data_9&quot; name=&quot;data_9&quot; style=&quot;width : 250px;&quot; class=&quot;form-control&quot;/&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;div style=&quot;padding-bottom: 18px;&quot;&gt;Questions / Comments&lt;br/&gt;<br/>
+&lt;textarea id=&quot;data_10&quot; false name=&quot;data_10&quot; style=&quot;width : 450px;&quot; rows=&quot;6&quot; class=&quot;form-control&quot;&gt;&lt;/textarea&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;div style=&quot;padding-bottom: 18px;&quot;&gt;&lt;input name=&quot;skip_Submit&quot; value=&quot;Submit&quot; type=&quot;submit&quot;/&gt;&lt;/div&gt;<br/>
+&lt;div&gt;<br/>
+&lt;div style=&quot;float:right&quot;&gt;&lt;a href=&quot;https://www.100forms.com&quot; id=&quot;lnk100&quot; title=&quot;form to email&quot;&gt;form to email&lt;/a&gt;&lt;/div&gt;<br/>
+&lt;script src=&quot;https://www.100forms.com/js/FORMKEY:6KGW9K6HGZ6K&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br/>
+&lt;/div&gt;<br/>
+&lt;/form&gt;<br/>
+<br/>
+&lt;script type=&quot;text/javascript&quot;&gt;<br/>
+ function validateForm() {<br/>
+ if (isEmpty(document.getElementById('data_2').value.trim())) {<br/>
+ alert('First name is required!');<br/>
+  return false;<br/>
+}<br/>
+if (isEmpty(document.getElementById('data_3').value.trim())) {<br/>
+ alert('Last name is required!');<br/>
+  return false;<br/>
+}<br/>
+if (isEmpty(document.getElementById('data_4').value.trim())) {<br/>
+ alert('Phone is required!');<br/>
+  return false;<br/>
+}<br/>
+if (isEmpty(document.getElementById('data_5').value.trim())) {<br/>
+ alert('Email is required!');<br/>
+  return false;<br/>
+}<br/>
+if (!validateEmail(document.getElementById('data_5').value.trim())) {<br/>
+ alert('Email must be a valid email address!');<br/>
+  return false;<br/>
+}<br/>
+if (isEmpty(document.getElementById('data_6').value.trim())) {<br/>
+ alert('Arrival date is required!');<br/>
+  return false;<br/>
+}<br/>
+if (isEmpty(document.getElementById('data_7').value.trim())) {<br/>
+ alert('Departure date is required!');<br/>
+  return false;<br/>
+}<br/>
+if (isEmpty(document.getElementById('data_8').value.trim())) {<br/>
+ alert('Number of adults is required!');<br/>
+  return false;<br/>
+}<br/>
+return true;<br/>
+ }<br/>
+ function isEmpty(str) { return (str.length === 0 || !str.trim()); }<br/>
+ function validateEmail(email) {<br/>
+ var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,15}(?:\.[a-z]{2})?)$/i;<br/>
+ return isEmpty(email) || re.test(email);<br/>
+}<br/>
+&lt;/script&gt;<br/>
+
+<script type="text/javascript">
+	var lng = window.navigator.language.toLowerCase();
+	if(lng.indexOf('en-us') > -1) {
+		window._mfq = window._mfq || [];
+		(function () {
+			var mf = document.createElement("script");
+			mf.type = "text/javascript";
+			mf.async = true;
+			mf.src = "//cdn.mouseflow.com/projects/c6c22640-a510-4420-a1fe-120ab48074e0.js";
+			document.getElementsByTagName("head")[0].appendChild(mf);
+		})();
+	}
+</script>
+
+</body>
+</html>
